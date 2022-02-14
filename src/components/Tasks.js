@@ -1,8 +1,15 @@
-import React,{useRef, useState} from 'react'
+import React,{useEffect, useRef, useState} from 'react'
 
 function Tasks() {
     const inputType=useRef('');
-    const [tasks,setTasksList]=useState([])
+    const [tasks,setTasksList]=useState(()=>{
+        const data=localStorage.getItem('tasks')
+        return data?JSON.parse(data):[]
+    })
+    useEffect(()=>{
+      localStorage.setItem('tasks',JSON.stringify(tasks));
+    },[tasks])
+    
     const appendTask=(event)=>{
         event.preventDefault();
         setTasksList([...tasks,
